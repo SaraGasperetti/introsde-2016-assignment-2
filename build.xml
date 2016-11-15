@@ -138,7 +138,7 @@
 	        </exec>
 	</target>
 	<target name="start">
-		<echo message="app start introsde.rest.ehealth.App in ${build.dir}" />
+		<echo message="app start introsde.rest.health.App in ${build.dir}" />
 		<java classname="introsde.rest.health.App" classpath="${build.dir}" fork="true">
 			<arg value="$JAVA_OPTS  -cp" />
 			<classpath>
