@@ -58,6 +58,7 @@
 	<property name="web.dir" value="." />
 	<property name="war.file" value="assignment.war"/>
 	<property name="heroku.app" value="introsde2016-assignment-2"/>
+	<property name="webcontent.dir" value="WebContent" />
 	
 
 	<!-- ================================= 
