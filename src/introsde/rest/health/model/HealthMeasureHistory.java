@@ -128,6 +128,7 @@ public class HealthMeasureHistory implements Serializable {
     	h.setTimestamp(new Date());
     	Person p = Person.getPersonById(personId);
     	h.setPerson(p);
+    	h.setMeasureDefinition(MeasureDefinition.getMeasureDefByType(lifestatus.getMeasure()));
     	EntityManager em = LifeCoachDao.instance.createEntityManager();
     	EntityTransaction tx = em.getTransaction();
     	tx.begin();

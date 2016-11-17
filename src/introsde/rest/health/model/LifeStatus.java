@@ -92,6 +92,13 @@ public class LifeStatus implements Serializable {
 //        return lf;
 //    }
     
+    /**
+     * Get the lifestatus of one person of a specified type (if the db is consistent, 
+     * it should be just one, otherwies the first one is returned)
+     * @param personId the id of the person
+     * @param measureType the type of measure
+     * @return the lifestatus information
+     */
     public static LifeStatus getLifeStatusByPersonIdAndType(int personId, String measureType) {
     	EntityManager em = LifeCoachDao.instance.createEntityManager();
 		List<LifeStatus> list = em.createQuery(
@@ -102,7 +109,26 @@ public class LifeStatus implements Serializable {
 				.getResultList();
 		return list.get(0);	
     }
+    
+    /**
+     * Get all the lifestatus of a specified person
+     * @param personId the id of the person
+     * @return the list of all lifestatus
+     */
+    public static List<LifeStatus> getAllLifeStatusByPersonId(int personId) {
+    	EntityManager em = LifeCoachDao.instance.createEntityManager();
+		List<LifeStatus> list = em.createQuery(
+				"SELECT l FROM LifeStatus l WHERE l.person.idPerson = :id", 
+				LifeStatus.class)
+				.setParameter("id", personId)
+				.getResultList();
+		return list;	
+    }
 
+    /**
+     * Get all lifestatus of all people in db
+     * @return a list of lifestatus
+     */
     public static List<LifeStatus> getAll() {
         EntityManager em = LifeCoachDao.instance.createEntityManager();
         List<LifeStatus> list = em.createNamedQuery("LifeStatus.findAll", LifeStatus.class)
@@ -111,38 +137,53 @@ public class LifeStatus implements Serializable {
         return list;
     }
 
-    public static LifeStatus saveLifeStatus(LifeStatus lifestatus, int personId, String measureType) {
-        EntityManager em = LifeCoachDao.instance.createEntityManager();
+
+    /**
+     * Create a new lifestatus for a specified type and store the old one in the person history
+     * @param lifestatus the new lifestatus
+     * @param personId the id of the person
+     * @param measureType the type of the measure
+     * @return the new lifestatus
+     */
+    public static LifeStatus saveLifeStatusAndStore(LifeStatus lifestatus, int personId, String measureType) {
         
+        //retrieve old lifestatus to save in the history
         LifeStatus oldLifestatus = LifeStatus.getLifeStatusByPersonIdAndType(personId, measureType);
-        System.out.println("old " + oldLifestatus.getMeasure() + " --> " + oldLifestatus.getValue());
-        LifeStatus.removeLifeStatus(oldLifestatus);
-//        LifeStatus oldLifestatus1 = LifeStatus.getLifeStatusByPersonIdAndType(personId, measureType);
-//        System.out.println("old " + oldLifestatus1.getMeasure() + " --> " + oldLifestatus1.getValue());
-        HealthMeasureHistory.saveLifestatusIntoHistory(oldLifestatus, personId);
         
+        if(oldLifestatus != null) {
+        	System.out.println("old " + oldLifestatus.getMeasure() + " --> " + oldLifestatus.getValue());
+	        LifeStatus.removeLifeStatus(oldLifestatus);
+	        HealthMeasureHistory.saveLifestatusIntoHistory(oldLifestatus, personId);
+        }
+        
+        //set the new lifestatus
 		Person p = Person.getPersonById(personId);
 		lifestatus.setPerson(p);
 		lifestatus.setMeasure(measureType);
-		p.getLifeStatus().add(lifestatus);
 		
+		//store the new lifestatus
+		EntityManager em = LifeCoachDao.instance.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         em.persist(lifestatus);
         tx.commit();
         LifeCoachDao.instance.closeConnections(em);
-        return lifestatus;
-    } 
+        
+        //update the lifestatus reference in person
+		Person.updatePerson(p);
 
-//    public static LifeStatus updateLifeStatus(LifeStatus lf) {
-//        EntityManager em = LifeCoachDao.instance.createEntityManager(); 
-//        EntityTransaction tx = em.getTransaction();
-//        tx.begin();
-//        lf=em.merge(lf);
-//        tx.commit();
-//        LifeCoachDao.instance.closeConnections(em);
-//        return lf;
-//    }
+        return lifestatus;
+    }
+    
+    public static LifeStatus updateLifestatus(LifeStatus lf) {
+        EntityManager em = LifeCoachDao.instance.createEntityManager();        
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        lf=em.merge(lf);
+        tx.commit();
+        LifeCoachDao.instance.closeConnections(em);
+        return lf;
+    }
 
     public static void removeLifeStatus(LifeStatus lf) {
         EntityManager em = LifeCoachDao.instance.createEntityManager();
@@ -153,5 +194,5 @@ public class LifeStatus implements Serializable {
         tx.commit();
         LifeCoachDao.instance.closeConnections(em);
     }
-    
+        
 }

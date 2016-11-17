@@ -37,7 +37,7 @@ public class PersonTest {
         p.setLastname("Pallino");
         Calendar c = Calendar.getInstance();
         c.set(1984, 6, 21);
-        p.setBirthdate(c.getTime());
+        //p.setBirthdate(c.getTime());
 
         System.out.println("--> TEST: addPersonWithDao ==> persisting person");
         Person.savePerson(p);

@@ -2,6 +2,8 @@ package introsde.rest.health.resources;
 
 import introsde.rest.health.model.Person;
 
+import java.text.ParseException;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -43,39 +45,66 @@ public class PersonResource {
     // Application integration
     @GET
     @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-    public Person getPerson() {
+    public Response getPerson() {
         Person person = this.getPersonById(id);
-        if (person == null)
-            throw new RuntimeException("Get: Person with " + id + " not found");
-        return person;
+        if (person == null) {
+        	return Response.status(404).build();
+        }
+        return Response.ok().entity(person).build();
     }
 
-    // for the browser
-    @GET
-    @Produces(MediaType.TEXT_XML)
-    public Person getPersonHTML() {
-        Person person = this.getPersonById(id);
-        if (person == null)
-            throw new RuntimeException("Get: Person with " + id + " not found");
-        System.out.println("Returning person... " + person.getIdPerson());
-        return person;
-    }
+//    // for the browser
+//    @GET
+//    @Produces(MediaType.TEXT_XML)
+//    public Response getPersonHTML() {
+//        Person person = this.getPersonById(id);
+//        if (person == null) {
+//        	System.out.println("Ciao");
+//        	return Response.noContent().build();
+//        }
+//            //throw new RuntimeException("Get: Person with " + id + " not found");
+//        System.out.println("Returning person... " + person.getIdPerson());
+//        return Response.ok().entity(person).build();
+//        //return person;
+//    }
 
     @PUT
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public Response putPerson(Person person) {
         System.out.println("--> Updating Person... " +this.id);
         System.out.println("--> "+person.toString());
-//        Person.updatePerson(person);
+
         Response res;
         Person existing = getPersonById(this.id);
 
         if (existing == null) {
             res = Response.noContent().build();
         } else {
-            res = Response.created(uriInfo.getAbsolutePath()).build();
+            //res = Response.created(uriInfo.getAbsolutePath()).build();
             person.setIdPerson(this.id);
-            Person.updatePerson(person);
+            
+            //take the non specified fields from the db
+            if(person.getFirstname() == null) {
+            	person.setFirstname(existing.getFirstname());
+            }
+            if(person.getLastname() == null) {
+            	person.setLastname(existing.getLastname());
+            }
+            if(person.getBirthdate() == null) {
+            	try {
+					person.setBirthdate(existing.getBirthdate());
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+            }
+            if(person.getUsername() == null) {
+            	person.setUsername(existing.getUsername());
+            }
+            if(person.getEmail() == null) {
+            	person.setEmail(existing.getEmail());
+            }
+            Person updatedPerson = Person.updatePerson(person);
+            res = Response.ok().entity(updatedPerson).build();
         }
         return res;
     }
@@ -96,7 +125,8 @@ public class PersonResource {
         //Person person = entityManager.find(Person.class, personId); 
 
         Person person = Person.getPersonById(personId);
-        System.out.println("Person: "+person.toString());
+        if(person != null) 
+        	System.out.println("Person: "+person.toString());
         return person;
     }
 }

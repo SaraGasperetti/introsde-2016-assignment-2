@@ -19,7 +19,7 @@ import introsde.rest.health.dao.LifeCoachDao;
 @Entity
 @Table(name="\"MeasureDefinition\"")
 @NamedQuery(name="MeasureDefinition.findAll", query="SELECT m FROM MeasureDefinition m")
-@XmlRootElement(name="measuretType")
+@XmlRootElement(name="measureType")
 public class MeasureDefinition implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -81,6 +81,19 @@ public class MeasureDefinition implements Serializable {
 
 		LifeCoachDao.instance.closeConnections(em);
 		return id;
+	}
+	
+	public static MeasureDefinition getMeasureDefByType(String measureName) {
+		EntityManager em = LifeCoachDao.instance.createEntityManager();
+		List<MeasureDefinition> list = em.createQuery(
+				"SELECT m FROM MeasureDefinition m WHERE m.measureName = :measureName", 
+				MeasureDefinition.class)
+				.setParameter("measureName", measureName)
+				.getResultList();
+		MeasureDefinition m = list.get(0);
+
+		LifeCoachDao.instance.closeConnections(em);
+		return m;
 	}
 	
 

@@ -8,8 +8,7 @@ import java.net.URISyntaxException;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
-public class App
-{
+public class App {
     public static void main(String[] args) throws IllegalArgumentException, IOException, URISyntaxException
     {
         String protocol = "http://";
@@ -32,7 +31,8 @@ public class App
     }
 
     public static ResourceConfig createApp() {
-        System.out.println("Starting sdelab REST services...");
-        return new MyApplicationConfig();
+    	System.out.println("Starting sdelab REST serices...");
+    	return new MyApplicationConfig();
     }
+
 }

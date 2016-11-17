@@ -1,12 +1,16 @@
 package introsde.rest.health.model;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.*;
+
 
 import introsde.rest.health.dao.LifeCoachDao;
 @Entity  // indicates that this class is an entity to persist in DB
@@ -62,8 +66,13 @@ public class Person implements Serializable {
     	return lastname;
     }
     
-    public Date getBirthdate() {
-    	return birthdate;
+    public String getBirthdate() {
+    	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        // Get the date today using Calendar object.
+    	if(birthdate == null) {
+    		return null;
+    	}
+        return df.format(birthdate);
     }
     
 	public String getEmail() {
@@ -95,8 +104,10 @@ public class Person implements Serializable {
     	this.lastname = lastname;
     }
     
-    public void setBirthdate(Date birthdate) {
-    	this.birthdate = birthdate;
+    public void setBirthdate(String bd) throws ParseException {
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+        Date date = format.parse(bd);
+        this.birthdate = date;
     }
     
     public void setEmail(String email) {
@@ -130,28 +141,27 @@ public class Person implements Serializable {
     }
 
     public static Person savePerson(Person p) {
+    	//store the new person and the lifestatus without person id reference
         EntityManager em = LifeCoachDao.instance.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         em.persist(p);
         tx.commit();
         LifeCoachDao.instance.closeConnections(em);
+        
+        //after creating the person, set the person id in the lifestatus row
+    	List<LifeStatus> list = p.getLifeStatus();
+    	for(LifeStatus l : list) {
+    		l.setPerson(p);
+			LifeStatus.updateLifestatus(l);
+		}
+    	
         return p;
     } 
 
     public static Person updatePerson(Person p) {
-    	
-    	List<LifeStatus> list = p.getLifeStatus();
-    	if(list == null) { //if the healthprofile is not modified, do not delete the current one
-    		Person personInDb = Person.getPersonById(p.idPerson);
-        	List<LifeStatus> lifestatus = personInDb.getLifeStatus();
-        	p.setLifeStatus(lifestatus);
-    	} else { //set the person id to the new healthprofile 
-    		for(LifeStatus l : list) {
-    			l.setPerson(p);
-    		}
-    	}
-    	
+    	//set the person with the current lifestatus, do not change them by PUT operation
+    	p.setLifeStatus(LifeStatus.getAllLifeStatusByPersonId(p.idPerson));
         EntityManager em = LifeCoachDao.instance.createEntityManager();        
         EntityTransaction tx = em.getTransaction();
         tx.begin();

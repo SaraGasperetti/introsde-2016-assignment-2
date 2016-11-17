@@ -71,6 +71,7 @@ public class PersonCollectionResource {
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public Person newPerson(Person person) throws IOException {
         System.out.println("Creating new person..."); 
+        System.out.print("birthdate " + person.getBirthdate());
         return Person.savePerson(person);
     }
 

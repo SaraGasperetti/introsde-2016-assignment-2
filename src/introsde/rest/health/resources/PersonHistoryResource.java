@@ -62,7 +62,7 @@ public class PersonHistoryResource {
 	    @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	    public LifeStatus newLifeStatus(LifeStatus lifestatus) throws IOException {
 	        System.out.println("Creating new item in history..."); 
-	        return LifeStatus.saveLifeStatus(lifestatus, id, measureType);
+	        return LifeStatus.saveLifeStatusAndStore(lifestatus, id, measureType);
 	    }
 	    
 
