@@ -2,7 +2,10 @@ package introsde.rest.client;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.net.URI;    
+import java.net.URI;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -22,9 +25,12 @@ import javax.xml.xpath.XPathFactory;
 
 import org.glassfish.jersey.client.ClientConfig;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -45,7 +51,7 @@ public class MyClient {
         service = client.target(getBaseURI());
 	}
 	
-    public static void main(String[] args) {
+    public static void main(String[] args) throws JsonProcessingException, IOException, NumberFormatException, XPathExpressionException, ParserConfigurationException, SAXException {
         MyClient myClient = new MyClient();
         
         myClient.makeAllRequests(MediaType.APPLICATION_XML);
@@ -55,9 +61,10 @@ public class MyClient {
     protected static URI getBaseURI() {
         return UriBuilder.fromUri(
                 "http://127.0.1.1:5700/sdelab/").build();
+        //"https://introsde2016-assignment-2.herokuapp.com/sdelab/").build();
     }
     
-    private void makeAllRequests(String mediaType) {
+    private void makeAllRequests(String mediaType) throws JsonProcessingException, IOException, NumberFormatException, XPathExpressionException, ParserConfigurationException, SAXException {
     	
     	//Get the writer
     	WriterOnFile writer = WriterOnFile.getWriter(mediaType);
@@ -71,7 +78,7 @@ public class MyClient {
     	String appResult;
     	String content = null;
     	
-    	//Request #1//////////////////////////////////////////////////////////////////////
+    	//Step 3.1//////////////////////////////////////////////////////////////////////
     	resource = "person";
     	response = makeRequest(GET, resource, mediaType);
     	//Get response info
@@ -83,43 +90,37 @@ public class MyClient {
     	int lastPersonId = 1;
     	int count = 0;
     	if(mediaType.equals(MediaType.APPLICATION_XML)) {
-    		count = queryXml(result, "count(//person)");
-        	firstPersonId = queryXml(result, "//person[1]/idPerson");
-        	lastPersonId = queryXml(result, "//person[last()]/idPerson");
+    		count = Integer.parseInt(getXmlValue(result, "count(//person)"));
+        	firstPersonId = Integer.parseInt(getXmlValue(result, "//person[1]/idPerson"));
+        	lastPersonId = Integer.parseInt(getXmlValue(result, "//person[last()]/idPerson"));
     	} else if(mediaType.equals(MediaType.APPLICATION_JSON)) {
-    		count = queryJsonSize(result);
-        	firstPersonId = queryJsonId(result, 0);
-        	lastPersonId = queryJsonId(result, count-1);
+    		count = getJsonSize(result);
+        	firstPersonId = getJsonIdAtIndex(result, 0, "idPerson");
+        	lastPersonId = getJsonIdAtIndex(result, count-1,"idPerson");
     	}
     	writer.write("First person in db has id " + firstPersonId);
     	writer.write("Last person in db has id " + lastPersonId);
     	writer.write("Total number of person: " + count+ "\n");
     	
-    	if (count > 2) {
-    		appResult = "OK";
-    	} else {
-    		appResult = "ERROR";
-    	}
+    	appResult = (count > 2) ? "OK":"ERROR"; 
+    	
     	writer.printFormatted(GET, resource, result, statusCode, statusType, appResult, mediaType);
     	//////////////////////////////////////////////////////////////////////////////////
     	
         
-        //Request #2//////////////////////////////////////////////////////////////////////
+        //Step 3.2//////////////////////////////////////////////////////////////////////
     	resource = "person/" + firstPersonId;
     	response = makeRequest(GET, resource, mediaType);
     	//Get response info
     	result = response.readEntity(String.class);
     	statusCode = response.getStatus();
         statusType = response.getStatusInfo();  
-        if(statusCode == 200 | statusCode == 202) {
-        	appResult = "OK";
-        } else {
-        	appResult = "ERROR";
-        }
+        appResult = (statusCode == 200 || statusCode == 202) ? "OK":"ERROR"; 
+        
     	writer.printFormatted(GET, resource, result, statusCode, statusType, appResult, mediaType);
     	//////////////////////////////////////////////////////////////////////////////////
     	
-        //Request #3//////////////////////////////////////////////////////////////////////
+        //Step 3.3//////////////////////////////////////////////////////////////////////
     	resource = "person/" + firstPersonId;
     	String expectedFirstname = null;
     	if(mediaType.equals(MediaType.APPLICATION_XML)) {
@@ -135,16 +136,13 @@ public class MyClient {
     	result = response.readEntity(String.class);
     	statusCode = response.getStatus();
         statusType = response.getStatusInfo();  
-        if(result.contains(expectedFirstname)) {
-        	appResult = "OK";
-        } else {
-        	appResult = "ERROR";
-        }
+        appResult = (result.contains(expectedFirstname)) ? "OK":"ERROR"; 
+
     	writer.printFormatted(PUT, resource, result, statusCode, statusType, appResult, mediaType);
     	//////////////////////////////////////////////////////////////////////////////////
     	
     	
-        //Request #4//////////////////////////////////////////////////////////////////////
+        //Step 3.4//////////////////////////////////////////////////////////////////////
     	resource = "person/";
     	if(mediaType.equals(MediaType.APPLICATION_XML)) {
     		content = "<person><firstname>Chuck</firstname><lastname>Norris</lastname>" +
@@ -168,21 +166,17 @@ public class MyClient {
         
         int newId = -1;
     	if(mediaType.equals(MediaType.APPLICATION_XML)) {
-        	newId = queryXml(result, "//person/idPerson");
+        	newId = Integer.parseInt(getXmlValue(result, "//person/idPerson"));
     	} else if(mediaType.equals(MediaType.APPLICATION_JSON)) {
-        	newId = queryJsonId(result);
+        	newId = getJsonId(result);
     	}
     	writer.write("The new id is: " + newId);
-    	
-        if((statusCode == 200 | statusCode == 201 | statusCode == 202) && newId != -1) {
-        	appResult = "OK";
-        } else {
-        	appResult = "ERROR";
-        }
+    	appResult = ((statusCode == 200 || statusCode == 201 || statusCode == 202) && newId != -1) ? "OK":"ERROR"; 
+        
     	writer.printFormatted(POST, resource, result, statusCode, statusType, appResult, mediaType);
     	//////////////////////////////////////////////////////////////////////////////////
         
-        //Request #5//////////////////////////////////////////////////////////////////////
+        //Step 3.5//////////////////////////////////////////////////////////////////////
     	resource = "person/" + newId;
     	response = makeRequest(DELETE, resource);
     	//Get response info
@@ -191,48 +185,213 @@ public class MyClient {
         appResult = "OK";
         
     	writer.printFormatted(DELETE, resource, null, statusCode, statusType, appResult, mediaType);
+    	
     	//////////////////////////////////////////////////////////////////////////////////
     	
-        //Request #2 again on the new person//////////////////////////////////////////////////////////////////////
     	resource = "person/" + newId;
     	response = makeRequest(GET, resource, mediaType);
     	//Get response info
     	result = response.readEntity(String.class);
     	statusCode = response.getStatus();
         statusType = response.getStatusInfo();  
-        if(statusCode == 404) {
-        	appResult = "OK";
-        } else {
-        	appResult = "ERROR";
-        }
+        appResult = (statusCode == 404) ? "OK":"ERROR";
+
     	writer.printFormatted(GET, resource, result, statusCode, statusType, appResult, mediaType);
     	//////////////////////////////////////////////////////////////////////////////////
     	
-    	//Request #9//////////////////////////////////////////////////////////////////////
+    	//Step 3.6//////////////////////////////////////////////////////////////////////
     	resource = "measureTypes";
     	response = makeRequest(GET, resource, mediaType);
     	//Get response info
     	result = response.readEntity(String.class);
     	statusCode = response.getStatus();
         statusType = response.getStatusInfo();  
-        
 
     	count = 0;
+    	List<String> measureTypes = null;
     	if(mediaType.equals(MediaType.APPLICATION_XML)) {
-    		count = queryXml(result, "count(//measureType)");
+    		count = Integer.parseInt(getXmlValue(result, "count(//measureType)"));
+    		measureTypes = getXmlArray(result, "//measureType");
     	} else if(mediaType.equals(MediaType.APPLICATION_JSON)) {
-    		count = queryJsonSize(result);
+    		count = getJsonSize(result);
+    		measureTypes = getJsonArray(result);
     	}
     	writer.write("Total number of measure types: " + count+ "\n");
-    	
-    	if (count > 2) {
-    		appResult = "OK";
-    	} else {
-    		appResult = "ERROR";
-    	}
+    	writer.write("The measures are: " + measureTypes);
+        appResult = (count > 2) ? "OK":"ERROR";
+
     	writer.printFormatted(GET, resource, result, statusCode, statusType, appResult, mediaType);
     	//////////////////////////////////////////////////////////////////////////////////
     	
+    	
+    	//Step 3.7//////////////////////////////////////////////////////////////////////
+    	appResult = "ERROR";
+    	int mid = -1;
+    	String measureType = "";
+    	List<String> resources = new LinkedList<>();
+    	List<String> results = new LinkedList<>();
+    	List<Integer> statusCodes = new LinkedList<>();
+    	List<StatusType> statusTypes = new LinkedList<>();
+    	
+    	for(String measure : measureTypes) {
+    		resource = "person/" + firstPersonId + "/" + measure;
+    		response = makeRequest(GET, resource, mediaType);
+        	//Get response info
+        	result = response.readEntity(String.class);
+        	statusCode = response.getStatus();
+            statusType = response.getStatusInfo();
+            
+            if(result.contains("mid")) {
+            	appResult = "OK";
+            	if(mediaType.equals(MediaType.APPLICATION_XML)) {
+            		mid = Integer.parseInt(getXmlValue(result, "//mid"));
+            		measureType = measure;
+            	} else if(mediaType.equals(MediaType.APPLICATION_JSON)) {
+            		mid = getJsonIdAtIndex(result, 0, "mid");
+            		measureType = measure;
+            	}
+            	
+            }
+            resources.add(resource);
+            results.add(result);
+            statusCodes.add(statusCode);
+            statusTypes.add(statusType);
+    	}
+    	
+    	for(int i=0; i<resources.size(); i++) {
+    		writer.printFormatted(GET, resources.get(i), results.get(i), statusCodes.get(i), statusTypes.get(i), appResult, mediaType);
+    	}
+    	
+    	//////////////////////////////////////////////////////////////////////////////////
+
+    	appResult = "ERROR";
+    	resources.clear();
+    	results.clear();
+    	statusCodes.clear();
+    	statusTypes.clear();
+    	for(String measure : measureTypes) {
+    		resource = "person/" + lastPersonId + "/" + measure;
+    		response = makeRequest(GET, resource, mediaType);
+        	//Get response info
+        	result = response.readEntity(String.class);
+        	statusCode = response.getStatus();
+            statusType = response.getStatusInfo();
+            if(result.contains("mid")) {
+            	appResult = "OK";
+            }
+            resources.add(resource);
+            results.add(result);
+            statusCodes.add(statusCode);
+            statusTypes.add(statusType);
+    	}
+    	for(int i=0; i<resources.size(); i++) {
+    		writer.printFormatted(GET, resources.get(i), results.get(i), statusCodes.get(i), statusTypes.get(i), appResult, mediaType);
+    	}
+    	//////////////////////////////////////////////////////////////////////////////////
+    	
+    	//Step 3.8//////////////////////////////////////////////////////////////////////
+    	resource = "person/" + firstPersonId + "/" + measureType + "/" + mid;
+    	response = makeRequest(GET, resource, mediaType);
+    	//Get response info
+    	result = response.readEntity(String.class);
+    	statusCode = response.getStatus();
+        statusType = response.getStatusInfo(); 
+        appResult = (statusCode == 200) ? "OK":"ERROR"; 
+        
+        writer.printFormatted(GET, resource, result, statusCode, statusType, appResult, mediaType);
+        //////////////////////////////////////////////////////////////////////////////////
+        
+    	//Step 3.9//////////////////////////////////////////////////////////////////////
+
+		resource = "person/" + firstPersonId + "/" + measureTypes.get(0);
+		response = makeRequest(GET, resource, mediaType);
+    	//Get response info
+    	result = response.readEntity(String.class);
+    	statusCode = response.getStatus();
+        statusType = response.getStatusInfo();
+        
+        if(mediaType.equals(MediaType.APPLICATION_XML)) {
+    		count = Integer.parseInt(getXmlValue(result, "count(//healthMeasureHistory)"));
+    	} else if(mediaType.equals(MediaType.APPLICATION_JSON)) {
+    		count = getJsonSize(result);
+    	}
+        appResult = "OK";
+        writer.write("There are " + count + " measures of type " + measureTypes.get(0) + " for person " + firstPersonId);
+        writer.printFormatted(GET, resource, result, statusCode, statusType, appResult, mediaType);
+
+        //////////////////////////////////////////////////////////////////////////////////
+        
+        resource = "person/" + firstPersonId + "/" + measureTypes.get(0);
+    	if(mediaType.equals(MediaType.APPLICATION_XML)) {
+    		content = "<measureType><value>72</value></measureType>";
+    	} else if(mediaType.equals(MediaType.APPLICATION_JSON)) {
+    		content =  "{\"value\":\"72\"}";
+    	}
+    	
+    	response = makeRequest(POST, resource, mediaType, content);
+    	//Get response info
+    	result = response.readEntity(String.class);
+    	statusCode = response.getStatus();
+        statusType = response.getStatusInfo(); 
+    	appResult = (statusCode == 200) ? "OK":"ERROR"; 
+        
+    	writer.printFormatted(POST, resource, result, statusCode, statusType, appResult, mediaType);
+    	
+        //////////////////////////////////////////////////////////////////////////////////
+    	int count1 = -1;
+    	resource = "person/" + firstPersonId + "/" + measureTypes.get(0);
+		response = makeRequest(GET, resource, mediaType);
+    	//Get response info
+    	result = response.readEntity(String.class);
+    	statusCode = response.getStatus();
+        statusType = response.getStatusInfo();
+        
+        if(mediaType.equals(MediaType.APPLICATION_XML)) {
+    		count1 = Integer.parseInt(getXmlValue(result, "count(//healthMeasureHistory)"));
+    	} else if(mediaType.equals(MediaType.APPLICATION_JSON)) {
+    		count1 = getJsonSize(result);
+    	}
+        appResult = ((count1 - count) == 1) ? "OK":"ERROR";
+        writer.write("There are " + count1 + " measures of type " + measureTypes.get(0) + " for person " + firstPersonId);
+        writer.printFormatted(GET, resource, result, statusCode, statusType, appResult, mediaType);
+        //////////////////////////////////////////////////////////////////////////////////
+
+    	//Step 3.10//////////////////////////////////////////////////////////////////////
+
+        resource = "person/" + firstPersonId + "/" + measureType + "/" + mid;
+    	if(mediaType.equals(MediaType.APPLICATION_XML)) {
+    		content = "<healthMeasureHistory><value>1.8</value></healthMeasureHistory>";
+    	} else if(mediaType.equals(MediaType.APPLICATION_JSON)) {
+    		content =  "{\"value\":\"1.8\"}";
+    	}
+    	
+    	response = makeRequest(PUT, resource, mediaType, content);
+    	//Get response info
+    	result = response.readEntity(String.class);
+    	statusCode = response.getStatus();
+        statusType = response.getStatusInfo(); 
+    	appResult = (statusCode == 200) ? "OK":"ERROR"; 
+        
+    	writer.printFormatted(PUT, resource, result, statusCode, statusType, appResult, mediaType);
+    	
+        //////////////////////////////////////////////////////////////////////////////////
+    	Double newValue = -1.0;
+    	resource = "person/" + firstPersonId + "/" + measureType;
+		response = makeRequest(GET, resource, mediaType);
+    	//Get response info
+    	result = response.readEntity(String.class);
+    	statusCode = response.getStatus();
+        statusType = response.getStatusInfo();
+        
+        if(mediaType.equals(MediaType.APPLICATION_XML)) {
+    		newValue = Double.parseDouble(getXmlValue(result, "//healthMeasureHistory[mid[text()='" + mid + "']]/value"));
+    	} else if(mediaType.equals(MediaType.APPLICATION_JSON)) {
+    		newValue = getJsonValueByMid(result, mid);
+    	}
+        appResult = (newValue == 1.8) ? "OK":"ERROR";
+        writer.write("The updated value is " + newValue);
+        writer.printFormatted(GET, resource, result, statusCode, statusType, appResult, mediaType);
+        
     	
     	
     	writer.closeWriting();
@@ -262,51 +421,77 @@ public class MyClient {
     	return makeRequest(method, resource, null, null);
     }
       
-    private int queryXml(String xmlString, String xpathString) {
-    	int personId = -1;
-    	try {
-    		DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			Document doc = docBuilder.parse(new InputSource(new StringReader(xmlString)));
-			
-			XPathFactory xPathfactory = XPathFactory.newInstance();
-			XPath xpath = xPathfactory.newXPath();
-			XPathExpression expr = xpath.compile(xpathString);
-			personId = Integer.parseInt((String)expr.evaluate(doc, XPathConstants.STRING));
-			
-		} catch (SAXException | IOException | ParserConfigurationException | XPathExpressionException e) {
-			e.printStackTrace();
-		} 
-    	return personId;
+    
+    //Xml query methods//////////////////////////////////////////////////////////////
+    
+    private Document getXmlTree(String xmlString) throws ParserConfigurationException, SAXException, IOException {
+    	DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		Document doc = docBuilder.parse(new InputSource(new StringReader(xmlString)));		
+		return doc;
     }
     
-    private int queryJson(String jsonString, int index) {
-    	int res = -1;
-    	ObjectMapper mapper = new ObjectMapper();
-		try {
-			JsonNode json = mapper.readTree(jsonString);
-			if(index == -1) { //return how many elements
-				res = json.size();
-			} else if(index == -2) { //just one element, not an array
-				res = json.path("idPerson").asInt();
-			} else {
-				res = json.get(index).path("idPerson").asInt();
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return res;
+    private XPathExpression getXpathExpr(String xpathString) throws XPathExpressionException {
+    	XPathFactory xPathfactory = XPathFactory.newInstance();
+		XPath xpath = xPathfactory.newXPath();
+		XPathExpression expr = xpath.compile(xpathString);
+		return expr;
     }
     
-    private int queryJsonId(String jsonString, int index) {
-    	return queryJson(jsonString, index);
+    private String getXmlValue(String xmlString, String xpathString) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+    	Document doc = getXmlTree(xmlString);
+		XPathExpression expr = getXpathExpr(xpathString);
+		String value =((String)expr.evaluate(doc, XPathConstants.STRING));
+    	return value;
     }
     
-    private int queryJsonId(String jsonString) {
-    	return queryJson(jsonString, -2);
+    private List<String> getXmlArray(String xmlString, String xpathString) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+    	Document doc = getXmlTree(xmlString);
+		XPathExpression expr = getXpathExpr(xpathString);
+		NodeList nodes =((NodeList)expr.evaluate(doc, XPathConstants.NODESET));
+		
+		List<String> values= new LinkedList<>();
+		for (int i=0; i<nodes.getLength(); i++)
+			values.add(nodes.item(i).getTextContent());
+    	return values;
     }
     
-    private int queryJsonSize(String jsonString) {
-    	return queryJson(jsonString, -1);
+    
+    
+    //Json query methods/////////////////////////////////////////////////////////////////////
+    
+    private JsonNode getJsonTree(String jsonString) throws JsonProcessingException, IOException {
+    	return new ObjectMapper().readTree(jsonString);
+    }
+       
+    private int getJsonIdAtIndex(String jsonString, int index, String path) throws JsonProcessingException, IOException {
+    	return getJsonTree(jsonString).get(index).path(path).asInt();
+    }
+    
+    private int getJsonId(String jsonString) throws JsonProcessingException, IOException {
+    	return getJsonTree(jsonString).path("idPerson").asInt();
+    }
+    
+    private int getJsonSize(String jsonString) throws JsonProcessingException, IOException {
+    	return getJsonTree(jsonString).size();
+    }
+    
+    private List<String> getJsonArray(String jsonString) throws JsonProcessingException, IOException {
+    	List<String> values = new LinkedList<>();
+    	JsonNode tree = getJsonTree(jsonString);
+    	int size = tree.size();
+    	for(int i=0; i < size; i++) {
+    		values.add(tree.get(i).path("value").asText());
+    	}
+    	return values;
+    }
+    
+    private Double getJsonValueByMid(String jsonString, int mid) throws JsonProcessingException, IOException{
+    	JsonNode tree = getJsonTree(jsonString);
+    	int size = tree.size();
+    	for(int i=0; i < size; i++) {
+    		if((tree.get(i).path("mid").asInt()) == mid)
+    		 return tree.get(i).path("value").asDouble();
+    	}
+    	return null;
     }
 }

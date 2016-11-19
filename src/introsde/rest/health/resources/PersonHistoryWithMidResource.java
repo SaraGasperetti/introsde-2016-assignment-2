@@ -1,5 +1,6 @@
 package introsde.rest.health.resources;
 
+import java.text.ParseException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -15,6 +16,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import introsde.rest.health.model.HealthMeasureHistory;
+import introsde.rest.health.model.Person;
 
 public class PersonHistoryWithMidResource {
 	   @Context
@@ -54,7 +56,36 @@ public class PersonHistoryWithMidResource {
 	            throw new RuntimeException("Get: History with " + id + " not found");
 	        return history;
 	    }
+	    
+	    @PUT
+	    @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	    public Response putPersonHistoryByMid(HealthMeasureHistory history) {
+	    	System.out.println("--> Updating History... " +this.id);
+	    	Response res;
+	        HealthMeasureHistory existing = this.getPersonHistoryByIdTypeAndMid(id, measureType, mid);
+	        
+	        if (existing == null) {
+	            res = Response.noContent().build();
+	        } else {
+	            history.setIdMeasureHistory(existing.getIdMeasureHistory());
+	            history.setMeasureDefinition(existing.getMeasureDefinition());
+	            history.setPerson(existing.getPerson());
+	            
+	            //take the non specified fields from the db
+	            if(history.getTimestamp() == null) {
+	            	history.setTimestamp(existing.getTimestamp());
+	            }
+	            if(history.getValue() == null) {
+	            	history.setValue(existing.getValue());
+	            }
 
+	            HealthMeasureHistory updatedHistory = HealthMeasureHistory.updateHealthMeasureHistory(history);
+	            res = Response.ok().entity(updatedHistory).build();
+	        }
+	        
+	        return res;
+	    }
+	    
 	    
 	    public HealthMeasureHistory getPersonHistoryByIdTypeAndMid(int personId, String measureType, int mid) {
 	        System.out.println("Reading person history from DB with id: "+personId);

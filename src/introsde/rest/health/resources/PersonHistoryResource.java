@@ -27,7 +27,6 @@ public class PersonHistoryResource {
 	    Request request;
 	    int id;
 	    String measureType;
-	    int mid;
 
 	    EntityManager entityManager; // only used if the application is deployed in a Java EE container
 

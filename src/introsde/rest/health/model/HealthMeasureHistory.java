@@ -94,6 +94,18 @@ public class HealthMeasureHistory implements Serializable {
 	
 	
     /*QUERIES TO DB*/
+	
+    public static HealthMeasureHistory updateHealthMeasureHistory(HealthMeasureHistory h) {
+//    	//set the person with the current lifestatus, do not change them by PUT operation
+//    	h.setMeasureDefinition((LifeStatus.getAllLifeStatusByPersonId(p.idPerson));
+        EntityManager em = LifeCoachDao.instance.createEntityManager();        
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        h=em.merge(h);
+        tx.commit();
+        LifeCoachDao.instance.closeConnections(em);
+        return h;
+    }
     
     public static List<HealthMeasureHistory> getPersonHistoryByIdAndType(int personId, String measureType) {
         EntityManager em = LifeCoachDao.instance.createEntityManager();
