@@ -6,7 +6,8 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 @ApplicationPath("sdelab")
 public class MyApplicationConfig extends ResourceConfig {
-    public MyApplicationConfig () {
+
+    public MyApplicationConfig() {
         packages("introsde.rest.health"); // Jersey will load all the resources under this package
     }
 }

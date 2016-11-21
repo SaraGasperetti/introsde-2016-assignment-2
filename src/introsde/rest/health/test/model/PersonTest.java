@@ -1,4 +1,5 @@
 package introsde.rest.health.test.model;
+
 import static org.junit.Assert.*;
 import introsde.rest.health.model.Person;
 import java.util.Calendar;
@@ -6,7 +7,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;   
+import javax.persistence.Persistence;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -20,9 +21,9 @@ public class PersonTest {
         List<Person> list = em.createNamedQuery("Person.findAll", Person.class)
                 .getResultList();
         for (Person person : list) {
-            System.out.println("--> Person = "+person.toString());
+            System.out.println("--> Person = " + person.toString());
         }
-        assertTrue(list.size()>0);
+        assertTrue(list.size() > 0);
     }
 
     @Test
@@ -45,7 +46,7 @@ public class PersonTest {
 
         System.out.println("--> TEST: addPersonWithDao ==> getting the list");
         list = Person.getAll();
-        assertEquals("Table has two entities", personOriginalCount+1, list.size());
+        assertEquals("Table has two entities", personOriginalCount + 1, list.size());
 
         Person newPerson = Person.getPersonById(p.getIdPerson());
 

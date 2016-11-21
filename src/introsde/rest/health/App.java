@@ -9,21 +9,20 @@ import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
 public class App {
-    public static void main(String[] args) throws IllegalArgumentException, IOException, URISyntaxException
-    {
+
+    public static void main(String[] args) throws IllegalArgumentException, IOException, URISyntaxException {
         String protocol = "http://";
         String port_value = "5700";
-        if (String.valueOf(System.getenv("PORT")) != "null"){
-            port_value=String.valueOf(System.getenv("PORT"));
+        if (String.valueOf(System.getenv("PORT")) != "null") {
+            port_value = String.valueOf(System.getenv("PORT"));
         }
-        String port = ":"+port_value+"/";
+        String port = ":" + port_value + "/";
         String hostname = InetAddress.getLocalHost().getHostAddress();
-        if (hostname.equals("127.0.0.1"))
-        {
+        if (hostname.equals("127.0.0.1")) {
             hostname = "localhost";
         }
 
-        URI BASE_URI = new URI(protocol + hostname + port+"sdelab/");
+        URI BASE_URI = new URI(protocol + hostname + port + "sdelab/");
 
         System.out.println("Starting sdelab standalone HTTP server...");
         JdkHttpServerFactory.createHttpServer(BASE_URI, createApp());
@@ -31,8 +30,8 @@ public class App {
     }
 
     public static ResourceConfig createApp() {
-    	System.out.println("Starting sdelab REST serices...");
-    	return new MyApplicationConfig();
+        System.out.println("Starting sdelab REST services...");
+        return new MyApplicationConfig();
     }
 
 }

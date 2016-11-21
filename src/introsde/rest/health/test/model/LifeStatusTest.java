@@ -22,7 +22,7 @@ public class LifeStatusTest {
     public void readAllLifeStatusListDaoTest() {
         System.out.println("--> TEST: readAllLifeStatusWithDao");
         List<LifeStatus> mList = LifeStatus.getAll();
-        assertTrue("LifeStatus not empty in DB", mList.size()>0);
+        assertTrue("LifeStatus not empty in DB", mList.size() > 0);
     }
 
     @Test
@@ -30,7 +30,7 @@ public class LifeStatusTest {
         System.out.println("--> TEST: readLifeStatusPersonRelationship");
         // setting weight for an existing person with existing measures
         Person person = Person.getPersonById(1);
-        assertTrue("Person should have at least one measurement", person.getLifeStatus().size()>0);
+        assertTrue("Person should have at least one measurement", person.getLifeStatus().size() > 0);
         LifeStatus l = person.getLifeStatus().get(1);
         assertNotNull("LifeStatus measure was created", l.getIdMeasure());
     }

@@ -6,11 +6,12 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 public enum LifeCoachDao {
+
     instance;
     private EntityManagerFactory emf;
 
     private LifeCoachDao() {
-        if (emf!=null) {
+        if (emf != null) {
             emf.close();
         }
         emf = Persistence.createEntityManagerFactory("introsde-jpa");
@@ -22,7 +23,7 @@ public enum LifeCoachDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;    
+        return null;
     }
 
     public void closeConnections(EntityManager em) {
@@ -35,5 +36,5 @@ public enum LifeCoachDao {
 
     public EntityManagerFactory getEntityManagerFactory() {
         return emf;
-    }  
+    }
 }
