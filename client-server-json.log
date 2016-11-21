@@ -1,0 +1,451 @@
+The server contacted is located at https://introsde2016-assignment-2.herokuapp.com/sdelab/
+First person in db has id 1
+Last person in db has id 6
+Total number of person: 6
+
+Request #1: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person
+Accept: application/json
+==> Result: OK
+==> HTTP Status: 200 OK
+[ {
+  "idPerson" : 1,
+  "firstname" : "John",
+  "lastname" : "Norris",
+  "birthdate" : "31/12/1944",
+  "username" : "chuck.norris",
+  "email" : "chuck.norris@gmail.com",
+  "measureType" : [ {
+    "value" : "1.73",
+    "measure" : "height"
+  }, {
+    "value" : "72",
+    "measure" : "weight"
+  } ]
+}, {
+  "idPerson" : 2,
+  "firstname" : "Pallino",
+  "lastname" : "Pinco",
+  "birthdate" : "16/07/1964",
+  "username" : "pallino.panco",
+  "email" : "pallino.panco@gmail.com",
+  "measureType" : [ {
+    "value" : "85",
+    "measure" : "weight"
+  }, {
+    "value" : "1.65",
+    "measure" : "height"
+  }, {
+    "value" : "120",
+    "measure" : "blood pressure"
+  } ]
+}, {
+  "idPerson" : 3,
+  "firstname" : "Pappo",
+  "lastname" : "Pippo",
+  "birthdate" : "08/12/1959",
+  "username" : "pippo",
+  "email" : "pippo.pappo@gmail.com",
+  "measureType" : [ {
+    "value" : "87",
+    "measure" : "weight"
+  }, {
+    "value" : "1.68",
+    "measure" : "height"
+  } ]
+}, {
+  "idPerson" : 4,
+  "firstname" : "Sara",
+  "lastname" : "Rossi",
+  "birthdate" : "09/11/1993",
+  "username" : "sara",
+  "email" : "sara@gmail.com",
+  "measureType" : [ {
+    "value" : "55",
+    "measure" : "weight"
+  }, {
+    "value" : "1.62",
+    "measure" : "height"
+  } ]
+}, {
+  "idPerson" : 5,
+  "firstname" : "John",
+  "lastname" : "Doe",
+  "birthdate" : "19/10/1985",
+  "username" : "jdoe",
+  "email" : "johndoe@gmail.com",
+  "measureType" : [ {
+    "value" : "93",
+    "measure" : "weight"
+  }, {
+    "value" : "1.90",
+    "measure" : "height"
+  } ]
+}, {
+  "idPerson" : 6,
+  "firstname" : "Tizio",
+  "lastname" : "Caio",
+  "birthdate" : "31/12/1979",
+  "username" : "caioT",
+  "email" : "tc@gmail.com",
+  "measureType" : [ {
+    "value" : "1.79",
+    "measure" : "height"
+  }, {
+    "value" : "69",
+    "measure" : "weight"
+  } ]
+} ]
+
+
+Request #2: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1
+Accept: application/json
+==> Result: OK
+==> HTTP Status: 200 OK
+{
+  "idPerson" : 1,
+  "firstname" : "John",
+  "lastname" : "Norris",
+  "birthdate" : "31/12/1944",
+  "username" : "chuck.norris",
+  "email" : "chuck.norris@gmail.com",
+  "measureType" : [ {
+    "value" : "1.73",
+    "measure" : "height"
+  }, {
+    "value" : "72",
+    "measure" : "weight"
+  } ]
+}
+
+
+Request #3: PUT https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1
+Accept: application/json
+Content-Type: application/json
+==> Result: OK
+==> HTTP Status: 200 OK
+{
+  "idPerson" : 1,
+  "firstname" : "John",
+  "lastname" : "Norris",
+  "birthdate" : "31/12/1944",
+  "username" : "chuck.norris",
+  "email" : "chuck.norris@gmail.com",
+  "measureType" : [ {
+    "value" : "1.73",
+    "measure" : "height"
+  }, {
+    "value" : "72",
+    "measure" : "weight"
+  } ]
+}
+
+
+The new id is: 2355
+Request #4: POST https://introsde2016-assignment-2.herokuapp.com/sdelab/person/
+Accept: application/json
+Content-Type: application/json
+==> Result: OK
+==> HTTP Status: 200 OK
+{
+  "idPerson" : 2355,
+  "firstname" : "Chuck",
+  "lastname" : "Norris",
+  "birthdate" : "01/01/1945",
+  "username" : null,
+  "email" : null,
+  "measureType" : [ {
+    "value" : "78.9",
+    "measure" : "weight"
+  }, {
+    "value" : "1.72",
+    "measure" : "height"
+  } ]
+}
+
+
+Request #5: DELETE https://introsde2016-assignment-2.herokuapp.com/sdelab/person/2355
+==> Result: OK
+==> HTTP Status: 204 No Content
+
+
+Request #6: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/2355
+Accept: application/json
+==> Result: OK
+==> HTTP Status: 404 Not Found
+
+
+Total number of measure types: 6
+
+The measures are: [weight, height, steps, blood pressure, heart rate, bmi]
+Request #7: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/measureTypes
+Accept: application/json
+==> Result: OK
+==> HTTP Status: 200 OK
+[ {
+  "value" : "weight"
+}, {
+  "value" : "height"
+}, {
+  "value" : "steps"
+}, {
+  "value" : "blood pressure"
+}, {
+  "value" : "heart rate"
+}, {
+  "value" : "bmi"
+} ]
+
+
+Request #8: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/weight
+Accept: application/json
+==> Result: OK
+==> HTTP Status: 200 OK
+[ {
+  "value" : "83",
+  "measureDefinition" : {
+    "value" : "weight"
+  },
+  "mid" : 1,
+  "created" : 1479250800000
+}, {
+  "value" : "75",
+  "measureDefinition" : {
+    "value" : "weight"
+  },
+  "mid" : 3,
+  "created" : 1434319200000
+}, {
+  "value" : "72",
+  "measureDefinition" : {
+    "value" : "weight"
+  },
+  "mid" : 1354,
+  "created" : 1479726972815
+} ]
+
+
+Request #9: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/height
+Accept: application/json
+==> Result: OK
+==> HTTP Status: 200 OK
+[ {
+  "value" : "1.8",
+  "measureDefinition" : {
+    "value" : "height"
+  },
+  "mid" : 2,
+  "created" : 1479250800000
+} ]
+
+
+Request #10: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/steps
+Accept: application/json
+==> Result: OK
+==> HTTP Status: 200 OK
+[ ]
+
+
+Request #11: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/blood pressure
+Accept: application/json
+==> Result: OK
+==> HTTP Status: 200 OK
+[ ]
+
+
+Request #12: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/heart rate
+Accept: application/json
+==> Result: OK
+==> HTTP Status: 200 OK
+[ ]
+
+
+Request #13: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/bmi
+Accept: application/json
+==> Result: OK
+==> HTTP Status: 200 OK
+[ ]
+
+
+Request #14: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/6/weight
+Accept: application/json
+==> Result: ERROR
+==> HTTP Status: 200 OK
+
+
+Request #15: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/6/height
+Accept: application/json
+==> Result: ERROR
+==> HTTP Status: 200 OK
+
+
+Request #16: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/6/steps
+Accept: application/json
+==> Result: ERROR
+==> HTTP Status: 200 OK
+
+
+Request #17: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/6/blood pressure
+Accept: application/json
+==> Result: ERROR
+==> HTTP Status: 200 OK
+
+
+Request #18: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/6/heart rate
+Accept: application/json
+==> Result: ERROR
+==> HTTP Status: 200 OK
+
+
+Request #19: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/6/bmi
+Accept: application/json
+==> Result: ERROR
+==> HTTP Status: 200 OK
+
+
+Request #20: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/height/2
+Accept: application/json
+==> Result: OK
+==> HTTP Status: 200 OK
+{
+  "value" : "1.8",
+  "measureDefinition" : {
+    "value" : "height"
+  },
+  "mid" : 2,
+  "created" : 1479250800000
+}
+
+
+There are 3 measures of type weight for person 1
+Request #21: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/weight
+Accept: application/json
+==> Result: OK
+==> HTTP Status: 200 OK
+[ {
+  "value" : "83",
+  "measureDefinition" : {
+    "value" : "weight"
+  },
+  "mid" : 1,
+  "created" : 1479250800000
+}, {
+  "value" : "75",
+  "measureDefinition" : {
+    "value" : "weight"
+  },
+  "mid" : 3,
+  "created" : 1434319200000
+}, {
+  "value" : "72",
+  "measureDefinition" : {
+    "value" : "weight"
+  },
+  "mid" : 1354,
+  "created" : 1479726972815
+} ]
+
+
+Request #22: POST https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/weight
+Accept: application/json
+Content-Type: application/json
+==> Result: OK
+==> HTTP Status: 200 OK
+{
+  "value" : "72",
+  "measure" : "weight"
+}
+
+
+There are 4 measures of type weight for person 1
+Request #23: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/weight
+Accept: application/json
+==> Result: OK
+==> HTTP Status: 200 OK
+[ {
+  "value" : "83",
+  "measureDefinition" : {
+    "value" : "weight"
+  },
+  "mid" : 1,
+  "created" : 1479250800000
+}, {
+  "value" : "75",
+  "measureDefinition" : {
+    "value" : "weight"
+  },
+  "mid" : 3,
+  "created" : 1434319200000
+}, {
+  "value" : "72",
+  "measureDefinition" : {
+    "value" : "weight"
+  },
+  "mid" : 1354,
+  "created" : 1479726972815
+}, {
+  "value" : "72",
+  "measureDefinition" : {
+    "value" : "weight"
+  },
+  "mid" : 1355,
+  "created" : 1479726987294
+} ]
+
+
+Request #24: PUT https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/height/2
+Accept: application/json
+Content-Type: application/json
+==> Result: OK
+==> HTTP Status: 200 OK
+{
+  "value" : "1.8",
+  "measureDefinition" : {
+    "value" : "height"
+  },
+  "mid" : 2,
+  "created" : 1479250800000
+}
+
+
+The updated value is 1.8
+Request #25: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/height
+Accept: application/json
+==> Result: OK
+==> HTTP Status: 200 OK
+[ {
+  "value" : "1.8",
+  "measureDefinition" : {
+    "value" : "height"
+  },
+  "mid" : 2,
+  "created" : 1479250800000
+} ]
+
+
+Request #26: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/weight?before=20-11-2016&after=10-11-1990
+Accept: application/json
+==> Result: OK
+==> HTTP Status: 200 OK
+[ {
+  "value" : "83",
+  "measureDefinition" : {
+    "value" : "weight"
+  },
+  "mid" : 1,
+  "created" : 1479250800000
+}, {
+  "value" : "75",
+  "measureDefinition" : {
+    "value" : "weight"
+  },
+  "mid" : 3,
+  "created" : 1434319200000
+} ]
+
+
+Request #27: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person?measureType=weight&max=90&min=86
+Accept: application/json
+==> Result: ERROR
+==> HTTP Status: 200 OK
+
+
