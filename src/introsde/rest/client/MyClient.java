@@ -57,8 +57,8 @@ public class MyClient {
 
     protected static URI getBaseURI() {
         return UriBuilder.fromUri(
-                "http://127.0.1.1:5700/sdelab/").build();
-        //"https://introsde2016-assignment-2.herokuapp.com/sdelab/").build();
+                //"http://127.0.1.1:5700/sdelab/").build();
+        		"https://introsde2016-assignment-2.herokuapp.com/sdelab/").build();
     }
 
     private void makeAllRequests(String mediaType) throws JsonProcessingException, IOException, NumberFormatException, XPathExpressionException, ParserConfigurationException, SAXException {
