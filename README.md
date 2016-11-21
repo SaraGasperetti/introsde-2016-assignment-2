@@ -20,12 +20,10 @@ The configuration files are:
 * ```build.xml```: it contains all the targets to run the code;
 * ```ivy.xml```: it contains all the dependencies needed to run the project and it downloads them.
 
-## Setup
+## Setup and how to run the client
 
-```git clone https://github.com/SaraGasperetti/introsde-2016-assignment-2.git```
-```cd introsde-2016-assignment-2```
-```ant execute.client```
+In order to clone the project and run it against the server deployed on Heroku:
+* ```git clone https://github.com/SaraGasperetti/introsde-2016-assignment-2.git```
+* ```cd introsde-2016-assignment-2```
+* ```ant execute.client```
 
-## How to run the client
-
-* ```execute.client```: run the client
