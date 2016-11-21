@@ -147,7 +147,7 @@
         </java>
     </target>
 	
-    <target name="execute.client" depends="init">
+    <target name="execute.client" depends="install">
         <echo message="Executing the client" />
         <java classname="introsde.rest.client.MyClient" classpath="${build.dir}">
             <classpath>
