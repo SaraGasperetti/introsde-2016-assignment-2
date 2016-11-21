@@ -95,10 +95,6 @@
         <echo message="Clean has been called" />
         <delete dir="${build.dir}" />
         <echo message="${build.dir} has been deleted" />
-        <delete dir="${src.dir}/${xjc.package}" />
-        <echo message="${src.dir}/${xjc.package} has been deleted" />
-        <delete file="catalog.xml" />
-        <echo message="catalog.xml has been deleted" />
     </target>
 	
     <target name="install" depends="clean, init">
