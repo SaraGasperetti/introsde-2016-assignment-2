@@ -1,211 +1,180 @@
-The server contacted is located at https://introsde2016-assignment-2.herokuapp.com/sdelab/
+The server contacted is located at https://introsde2016-assignment2.herokuapp.com/assignment/
 First person in db has id 1
-Last person in db has id 6
-Total number of person: 6
+Last person in db has id 3503
+Total number of person: 3
 
-Request #1: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person
+Request #1: GET https://introsde2016-assignment2.herokuapp.com/assignment/person
 Accept: application/xml
 ==> Result: OK
 ==> HTTP Status: 200 OK
 <?xml version="1.0" encoding="UTF-8"?><people>
     <person>
-        <birthdate>31/12/1944</birthdate>
-        <email>chuck.norris@gmail.com</email>
-        <firstname>Chuck</firstname>
+        <birthdate>06/08/1993</birthdate>
+        <email>michele@test.com</email>
         <idPerson>1</idPerson>
-        <lastname>Norris</lastname>
-        <healthprofile>
+        <lastname>Bof</lastname>
+        <healthProfile>
             <measureType>
-                <measure>height</measure>
-                <value>1.73</value>
-            </measureType>
-            <measureType>
-                <measure>weight</measure>
+                <measureDef>
+                    <idMeasureDef>1</idMeasureDef>
+                    <measureName>weight</measureName>
+                </measureDef>
+                <measureName>weight</measureName>
                 <value>72</value>
             </measureType>
-        </healthprofile>
-        <username>chuck.norris</username>
+            <measureType>
+                <measureDef>
+                    <idMeasureDef>2</idMeasureDef>
+                    <measureName>height</measureName>
+                </measureDef>
+                <measureName>height</measureName>
+                <value>72</value>
+            </measureType>
+        </healthProfile>
+        <name>Michele</name>
+        <username>mikybof</username>
     </person>
     <person>
-        <birthdate>16/07/1964</birthdate>
-        <email>pallino.panco@gmail.com</email>
-        <firstname>Pallino</firstname>
-        <idPerson>2</idPerson>
-        <lastname>Pinco</lastname>
-        <healthprofile>
-            <measureType>
-                <measure>weight</measure>
-                <value>85</value>
-            </measureType>
-            <measureType>
-                <measure>height</measure>
-                <value>1.65</value>
-            </measureType>
-            <measureType>
-                <measure>blood pressure</measure>
-                <value>120</value>
-            </measureType>
-        </healthprofile>
-        <username>pallino.panco</username>
-    </person>
-    <person>
-        <birthdate>08/12/1959</birthdate>
+        <birthdate>01/09/1978</birthdate>
         <email>pippo.pappo@gmail.com</email>
-        <firstname>Pappo</firstname>
         <idPerson>3</idPerson>
         <lastname>Pippo</lastname>
-        <healthprofile>
-            <measureType>
-                <measure>weight</measure>
-                <value>87</value>
-            </measureType>
-            <measureType>
-                <measure>height</measure>
-                <value>1.68</value>
-            </measureType>
-        </healthprofile>
+        <healthProfile/>
+        <name>Pappo</name>
         <username>pippo</username>
     </person>
     <person>
-        <birthdate>09/11/1993</birthdate>
-        <email>sara@gmail.com</email>
-        <firstname>Sara</firstname>
-        <idPerson>4</idPerson>
-        <lastname>Rossi</lastname>
-        <healthprofile>
+        <birthdate>09/12/1993</birthdate>
+        <email>michele@test.com</email>
+        <idPerson>3503</idPerson>
+        <lastname>Bern</lastname>
+        <healthProfile>
             <measureType>
-                <measure>weight</measure>
-                <value>55</value>
+                <measureDef>
+                    <idMeasureDef>1</idMeasureDef>
+                    <measureName>weight</measureName>
+                </measureDef>
+                <measureName>weight</measureName>
+                <value>80</value>
             </measureType>
             <measureType>
-                <measure>height</measure>
-                <value>1.62</value>
+                <measureDef>
+                    <idMeasureDef>2</idMeasureDef>
+                    <measureName>height</measureName>
+                </measureDef>
+                <measureName>height</measureName>
+                <value>180</value>
             </measureType>
-        </healthprofile>
-        <username>sara</username>
-    </person>
-    <person>
-        <birthdate>19/10/1985</birthdate>
-        <email>johndoe@gmail.com</email>
-        <firstname>John</firstname>
-        <idPerson>5</idPerson>
-        <lastname>Doe</lastname>
-        <healthprofile>
-            <measureType>
-                <measure>weight</measure>
-                <value>93</value>
-            </measureType>
-            <measureType>
-                <measure>height</measure>
-                <value>1.90</value>
-            </measureType>
-        </healthprofile>
-        <username>jdoe</username>
-    </person>
-    <person>
-        <birthdate>31/12/1979</birthdate>
-        <email>tc@gmail.com</email>
-        <firstname>Tizio</firstname>
-        <idPerson>6</idPerson>
-        <lastname>Caio</lastname>
-        <healthprofile>
-            <measureType>
-                <measure>height</measure>
-                <value>1.79</value>
-            </measureType>
-            <measureType>
-                <measure>weight</measure>
-                <value>69</value>
-            </measureType>
-        </healthprofile>
-        <username>caioT</username>
+        </healthProfile>
+        <name>Francesco</name>
+        <username>miky</username>
     </person>
 </people>
 
 
 
-Request #2: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1
+Request #2: GET https://introsde2016-assignment2.herokuapp.com/assignment/person/1
 Accept: application/xml
 ==> Result: OK
 ==> HTTP Status: 200 OK
 <?xml version="1.0" encoding="UTF-8"?><person>
-    <birthdate>31/12/1944</birthdate>
-    <email>chuck.norris@gmail.com</email>
-    <firstname>Chuck</firstname>
+    <birthdate>06/08/1993</birthdate>
+    <email>michele@test.com</email>
     <idPerson>1</idPerson>
-    <lastname>Norris</lastname>
-    <healthprofile>
+    <lastname>Bof</lastname>
+    <healthProfile>
         <measureType>
-            <measure>height</measure>
-            <value>1.73</value>
-        </measureType>
-        <measureType>
-            <measure>weight</measure>
+            <measureDef>
+                <idMeasureDef>1</idMeasureDef>
+                <measureName>weight</measureName>
+            </measureDef>
+            <measureName>weight</measureName>
             <value>72</value>
         </measureType>
-    </healthprofile>
-    <username>chuck.norris</username>
+        <measureType>
+            <measureDef>
+                <idMeasureDef>2</idMeasureDef>
+                <measureName>height</measureName>
+            </measureDef>
+            <measureName>height</measureName>
+            <value>72</value>
+        </measureType>
+    </healthProfile>
+    <name>Michele</name>
+    <username>mikybof</username>
 </person>
 
 
 
-Request #3: PUT https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1
+Request #3: PUT https://introsde2016-assignment2.herokuapp.com/assignment/person/1
 Accept: application/xml
 Content-Type: application/xml
 ==> Result: OK
 ==> HTTP Status: 200 OK
 <?xml version="1.0" encoding="UTF-8"?><person>
-    <birthdate>31/12/1944</birthdate>
-    <email>chuck.norris@gmail.com</email>
-    <firstname>John</firstname>
+    <birthdate>06/08/1993</birthdate>
+    <email>michele@test.com</email>
     <idPerson>1</idPerson>
-    <lastname>Norris</lastname>
-    <healthprofile>
+    <lastname>Bof</lastname>
+    <healthProfile>
         <measureType>
-            <measure>height</measure>
-            <value>1.73</value>
-        </measureType>
-        <measureType>
-            <measure>weight</measure>
+            <measureDef>
+                <idMeasureDef>1</idMeasureDef>
+                <measureName>weight</measureName>
+            </measureDef>
+            <measureName>weight</measureName>
             <value>72</value>
         </measureType>
-    </healthprofile>
-    <username>chuck.norris</username>
+        <measureType>
+            <measureDef>
+                <idMeasureDef>2</idMeasureDef>
+                <measureName>height</measureName>
+            </measureDef>
+            <measureName>height</measureName>
+            <value>72</value>
+        </measureType>
+    </healthProfile>
+    <name>John</name>
+    <username>mikybof</username>
 </person>
 
 
 
-The new id is: 2354
-Request #4: POST https://introsde2016-assignment-2.herokuapp.com/sdelab/person/
+The new id is: 3903
+Request #4: POST https://introsde2016-assignment2.herokuapp.com/assignment/person/
 Accept: application/xml
 Content-Type: application/xml
 ==> Result: OK
 ==> HTTP Status: 200 OK
 <?xml version="1.0" encoding="UTF-8"?><person>
     <birthdate>01/01/1945</birthdate>
-    <firstname>Chuck</firstname>
-    <idPerson>2354</idPerson>
+    <idPerson>3903</idPerson>
     <lastname>Norris</lastname>
-    <healthprofile>
+    <healthProfile>
         <measureType>
-            <measure>weight</measure>
+            <measureDef>
+                <idMeasureDef>1</idMeasureDef>
+            </measureDef>
             <value>78.9</value>
         </measureType>
         <measureType>
-            <measure>height</measure>
+            <measureDef>
+                <idMeasureDef>2</idMeasureDef>
+            </measureDef>
             <value>172</value>
         </measureType>
-    </healthprofile>
+    </healthProfile>
+    <name>Chuck</name>
 </person>
 
 
 
-Request #5: DELETE https://introsde2016-assignment-2.herokuapp.com/sdelab/person/2354
+Request #5: DELETE https://introsde2016-assignment2.herokuapp.com/assignment/person/3903
 ==> Result: OK
 ==> HTTP Status: 204 No Content
 
 
-Request #6: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/2354
+Request #6: GET https://introsde2016-assignment2.herokuapp.com/assignment/person/3903
 Accept: application/xml
 ==> Result: OK
 ==> HTTP Status: 404 Not Found
@@ -214,273 +183,349 @@ Accept: application/xml
 Total number of measure types: 6
 
 The measures are: [weight, height, steps, blood pressure, heart rate, bmi]
-Request #7: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/measureTypes
+Request #7: GET https://introsde2016-assignment2.herokuapp.com/assignment/measureTypes
 Accept: application/xml
 ==> Result: OK
 ==> HTTP Status: 200 OK
-<?xml version="1.0" encoding="UTF-8"?><measureDefinitions>
+<?xml version="1.0" encoding="UTF-8"?><measureTypes>
     <measureType>weight</measureType>
     <measureType>height</measureType>
     <measureType>steps</measureType>
     <measureType>blood pressure</measureType>
     <measureType>heart rate</measureType>
     <measureType>bmi</measureType>
-</measureDefinitions>
+</measureTypes>
 
 
 
-Request #8: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/weight
+Request #8: GET https://introsde2016-assignment2.herokuapp.com/assignment/person/1/weight
 Accept: application/xml
 ==> Result: OK
 ==> HTTP Status: 200 OK
 <?xml version="1.0" encoding="UTF-8"?><healthMeasureHistories>
     <healthMeasureHistory>
-        <mid>1</mid>
-        <measureDefinition>weight</measureDefinition>
-        <created>2016-11-15T23:00:00Z</created>
-        <value>83</value>
+        <idMeasureHistory>1</idMeasureHistory>
+        <measureName>weight</measureName>
+        <created>09/10/2010</created>
+        <value>85</value>
     </healthMeasureHistory>
     <healthMeasureHistory>
-        <mid>3</mid>
-        <measureDefinition>weight</measureDefinition>
-        <created>2015-06-14T22:00:00Z</created>
-        <value>75</value>
+        <idMeasureHistory>2</idMeasureHistory>
+        <measureName>weight</measureName>
+        <created>16/11/2016</created>
+        <value>84</value>
     </healthMeasureHistory>
 </healthMeasureHistories>
 
 
 
-Request #9: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/height
+Request #9: GET https://introsde2016-assignment2.herokuapp.com/assignment/person/1/height
 Accept: application/xml
 ==> Result: OK
 ==> HTTP Status: 200 OK
 <?xml version="1.0" encoding="UTF-8"?><healthMeasureHistories>
     <healthMeasureHistory>
-        <mid>2</mid>
-        <measureDefinition>height</measureDefinition>
-        <created>2016-11-15T23:00:00Z</created>
-        <value>1.8</value>
-    </healthMeasureHistory>
-</healthMeasureHistories>
-
-
-
-Request #10: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/steps
-Accept: application/xml
-==> Result: OK
-==> HTTP Status: 200 OK
-<?xml version="1.0" encoding="UTF-8"?><healthMeasureHistories/>
-
-
-
-Request #11: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/blood pressure
-Accept: application/xml
-==> Result: OK
-==> HTTP Status: 200 OK
-<?xml version="1.0" encoding="UTF-8"?><healthMeasureHistories/>
-
-
-
-Request #12: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/heart rate
-Accept: application/xml
-==> Result: OK
-==> HTTP Status: 200 OK
-<?xml version="1.0" encoding="UTF-8"?><healthMeasureHistories/>
-
-
-
-Request #13: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/bmi
-Accept: application/xml
-==> Result: OK
-==> HTTP Status: 200 OK
-<?xml version="1.0" encoding="UTF-8"?><healthMeasureHistories/>
-
-
-
-Request #14: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/6/weight
-Accept: application/xml
-==> Result: ERROR
-==> HTTP Status: 200 OK
-
-
-Request #15: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/6/height
-Accept: application/xml
-==> Result: ERROR
-==> HTTP Status: 200 OK
-
-
-Request #16: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/6/steps
-Accept: application/xml
-==> Result: ERROR
-==> HTTP Status: 200 OK
-
-
-Request #17: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/6/blood pressure
-Accept: application/xml
-==> Result: ERROR
-==> HTTP Status: 200 OK
-
-
-Request #18: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/6/heart rate
-Accept: application/xml
-==> Result: ERROR
-==> HTTP Status: 200 OK
-
-
-Request #19: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/6/bmi
-Accept: application/xml
-==> Result: ERROR
-==> HTTP Status: 200 OK
-
-
-Request #20: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/height/2
-Accept: application/xml
-==> Result: OK
-==> HTTP Status: 200 OK
-<?xml version="1.0" encoding="UTF-8"?><healthMeasureHistory>
-    <mid>2</mid>
-    <measureDefinition>height</measureDefinition>
-    <created>2016-11-15T23:00:00Z</created>
-    <value>1.8</value>
-</healthMeasureHistory>
-
-
-
-There are 2 measures of type weight for person 1
-Request #21: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/weight
-Accept: application/xml
-==> Result: OK
-==> HTTP Status: 200 OK
-<?xml version="1.0" encoding="UTF-8"?><healthMeasureHistories>
-    <healthMeasureHistory>
-        <mid>1</mid>
-        <measureDefinition>weight</measureDefinition>
-        <created>2016-11-15T23:00:00Z</created>
-        <value>83</value>
+        <idMeasureHistory>155</idMeasureHistory>
+        <measureName>height</measureName>
+        <created>08/12/2011</created>
+        <value>82</value>
     </healthMeasureHistory>
     <healthMeasureHistory>
-        <mid>3</mid>
-        <measureDefinition>weight</measureDefinition>
-        <created>2015-06-14T22:00:00Z</created>
-        <value>75</value>
-    </healthMeasureHistory>
-</healthMeasureHistories>
-
-
-
-Request #22: POST https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/weight
-Accept: application/xml
-Content-Type: application/xml
-==> Result: OK
-==> HTTP Status: 200 OK
-<?xml version="1.0" encoding="UTF-8"?><measureType>
-    <measure>weight</measure>
-    <value>72</value>
-</measureType>
-
-
-
-There are 3 measures of type weight for person 1
-Request #23: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/weight
-Accept: application/xml
-==> Result: OK
-==> HTTP Status: 200 OK
-<?xml version="1.0" encoding="UTF-8"?><healthMeasureHistories>
-    <healthMeasureHistory>
-        <mid>1</mid>
-        <measureDefinition>weight</measureDefinition>
-        <created>2016-11-15T23:00:00Z</created>
-        <value>83</value>
+        <idMeasureHistory>156</idMeasureHistory>
+        <measureName>height</measureName>
+        <created>16/11/2016</created>
+        <value>172</value>
     </healthMeasureHistory>
     <healthMeasureHistory>
-        <mid>3</mid>
-        <measureDefinition>weight</measureDefinition>
-        <created>2015-06-14T22:00:00Z</created>
-        <value>75</value>
+        <idMeasureHistory>354</idMeasureHistory>
+        <measureName>height</measureName>
+        <created>19/11/2016</created>
+        <value>72</value>
     </healthMeasureHistory>
     <healthMeasureHistory>
-        <mid>1354</mid>
-        <measureDefinition>weight</measureDefinition>
-        <created>2016-11-21T11:16:12.815Z</created>
+        <idMeasureHistory>554</idMeasureHistory>
+        <measureName>height</measureName>
+        <created>20/11/2016</created>
+        <value>72</value>
+    </healthMeasureHistory>
+    <healthMeasureHistory>
+        <idMeasureHistory>555</idMeasureHistory>
+        <measureName>height</measureName>
+        <created>20/11/2016</created>
+        <value>72</value>
+    </healthMeasureHistory>
+    <healthMeasureHistory>
+        <idMeasureHistory>556</idMeasureHistory>
+        <measureName>height</measureName>
+        <created>20/11/2016</created>
+        <value>72</value>
+    </healthMeasureHistory>
+    <healthMeasureHistory>
+        <idMeasureHistory>557</idMeasureHistory>
+        <measureName>height</measureName>
+        <created>20/11/2016</created>
         <value>72</value>
     </healthMeasureHistory>
 </healthMeasureHistories>
 
 
 
-Request #24: PUT https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/height/2
+Request #10: GET https://introsde2016-assignment2.herokuapp.com/assignment/person/1/steps
+Accept: application/xml
+==> Result: OK
+==> HTTP Status: 500 Internal Server Error
+
+
+Request #11: GET https://introsde2016-assignment2.herokuapp.com/assignment/person/1/blood pressure
+Accept: application/xml
+==> Result: OK
+==> HTTP Status: 500 Internal Server Error
+
+
+Request #12: GET https://introsde2016-assignment2.herokuapp.com/assignment/person/1/heart rate
+Accept: application/xml
+==> Result: OK
+==> HTTP Status: 500 Internal Server Error
+
+
+Request #13: GET https://introsde2016-assignment2.herokuapp.com/assignment/person/1/bmi
+Accept: application/xml
+==> Result: OK
+==> HTTP Status: 500 Internal Server Error
+
+
+Request #14: GET https://introsde2016-assignment2.herokuapp.com/assignment/person/3503/weight
+Accept: application/xml
+==> Result: ERROR
+==> HTTP Status: 500 Internal Server Error
+
+
+Request #15: GET https://introsde2016-assignment2.herokuapp.com/assignment/person/3503/height
+Accept: application/xml
+==> Result: ERROR
+==> HTTP Status: 500 Internal Server Error
+
+
+Request #16: GET https://introsde2016-assignment2.herokuapp.com/assignment/person/3503/steps
+Accept: application/xml
+==> Result: ERROR
+==> HTTP Status: 500 Internal Server Error
+
+
+Request #17: GET https://introsde2016-assignment2.herokuapp.com/assignment/person/3503/blood pressure
+Accept: application/xml
+==> Result: ERROR
+==> HTTP Status: 500 Internal Server Error
+
+
+Request #18: GET https://introsde2016-assignment2.herokuapp.com/assignment/person/3503/heart rate
+Accept: application/xml
+==> Result: ERROR
+==> HTTP Status: 500 Internal Server Error
+
+
+Request #19: GET https://introsde2016-assignment2.herokuapp.com/assignment/person/3503/bmi
+Accept: application/xml
+==> Result: ERROR
+==> HTTP Status: 500 Internal Server Error
+
+
+Request #20: GET https://introsde2016-assignment2.herokuapp.com/assignment/person/1/height/155
+Accept: application/xml
+==> Result: OK
+==> HTTP Status: 200 OK
+<?xml version="1.0" encoding="UTF-8"?><healthMeasureHistory>
+    <idMeasureHistory>155</idMeasureHistory>
+    <measureName>height</measureName>
+    <created>08/12/2011</created>
+    <value>82</value>
+</healthMeasureHistory>
+
+
+
+There are 2 measures of type weight for person 1
+Request #21: GET https://introsde2016-assignment2.herokuapp.com/assignment/person/1/weight
+Accept: application/xml
+==> Result: OK
+==> HTTP Status: 200 OK
+<?xml version="1.0" encoding="UTF-8"?><healthMeasureHistories>
+    <healthMeasureHistory>
+        <idMeasureHistory>1</idMeasureHistory>
+        <measureName>weight</measureName>
+        <created>09/10/2010</created>
+        <value>85</value>
+    </healthMeasureHistory>
+    <healthMeasureHistory>
+        <idMeasureHistory>2</idMeasureHistory>
+        <measureName>weight</measureName>
+        <created>16/11/2016</created>
+        <value>84</value>
+    </healthMeasureHistory>
+</healthMeasureHistories>
+
+
+
+Request #22: POST https://introsde2016-assignment2.herokuapp.com/assignment/person/1/weight
+Accept: application/xml
+Content-Type: application/xml
+==> Result: OK
+==> HTTP Status: 200 OK
+<?xml version="1.0" encoding="UTF-8"?><lifeStatus>
+    <measureDef>
+        <idMeasureDef>1</idMeasureDef>
+        <measureName>weight</measureName>
+    </measureDef>
+    <measureName>weight</measureName>
+    <value>72</value>
+</lifeStatus>
+
+
+
+There are 3 measures of type weight for person 1
+Request #23: GET https://introsde2016-assignment2.herokuapp.com/assignment/person/1/weight
+Accept: application/xml
+==> Result: OK
+==> HTTP Status: 200 OK
+<?xml version="1.0" encoding="UTF-8"?><healthMeasureHistories>
+    <healthMeasureHistory>
+        <idMeasureHistory>1</idMeasureHistory>
+        <measureName>weight</measureName>
+        <created>09/10/2010</created>
+        <value>85</value>
+    </healthMeasureHistory>
+    <healthMeasureHistory>
+        <idMeasureHistory>2</idMeasureHistory>
+        <measureName>weight</measureName>
+        <created>16/11/2016</created>
+        <value>84</value>
+    </healthMeasureHistory>
+    <healthMeasureHistory>
+        <idMeasureHistory>604</idMeasureHistory>
+        <measureName>weight</measureName>
+        <created>22/11/2016</created>
+        <value>72</value>
+    </healthMeasureHistory>
+</healthMeasureHistories>
+
+
+
+Request #24: PUT https://introsde2016-assignment2.herokuapp.com/assignment/person/1/height/155
 Accept: application/xml
 Content-Type: application/xml
 ==> Result: OK
 ==> HTTP Status: 200 OK
 <?xml version="1.0" encoding="UTF-8"?><healthMeasureHistory>
-    <mid>2</mid>
-    <measureDefinition>height</measureDefinition>
-    <created>2016-11-15T23:00:00Z</created>
+    <idMeasureHistory>155</idMeasureHistory>
+    <measureName>height</measureName>
+    <created>10/11/2016</created>
     <value>1.8</value>
 </healthMeasureHistory>
 
 
 
 The updated value is 1.8
-Request #25: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/height
+Request #25: GET https://introsde2016-assignment2.herokuapp.com/assignment/person/1/height
 Accept: application/xml
 ==> Result: OK
 ==> HTTP Status: 200 OK
 <?xml version="1.0" encoding="UTF-8"?><healthMeasureHistories>
     <healthMeasureHistory>
-        <mid>2</mid>
-        <measureDefinition>height</measureDefinition>
-        <created>2016-11-15T23:00:00Z</created>
+        <idMeasureHistory>155</idMeasureHistory>
+        <measureName>height</measureName>
+        <created>10/11/2016</created>
         <value>1.8</value>
     </healthMeasureHistory>
+    <healthMeasureHistory>
+        <idMeasureHistory>156</idMeasureHistory>
+        <measureName>height</measureName>
+        <created>16/11/2016</created>
+        <value>172</value>
+    </healthMeasureHistory>
+    <healthMeasureHistory>
+        <idMeasureHistory>354</idMeasureHistory>
+        <measureName>height</measureName>
+        <created>19/11/2016</created>
+        <value>72</value>
+    </healthMeasureHistory>
+    <healthMeasureHistory>
+        <idMeasureHistory>554</idMeasureHistory>
+        <measureName>height</measureName>
+        <created>20/11/2016</created>
+        <value>72</value>
+    </healthMeasureHistory>
+    <healthMeasureHistory>
+        <idMeasureHistory>555</idMeasureHistory>
+        <measureName>height</measureName>
+        <created>20/11/2016</created>
+        <value>72</value>
+    </healthMeasureHistory>
+    <healthMeasureHistory>
+        <idMeasureHistory>556</idMeasureHistory>
+        <measureName>height</measureName>
+        <created>20/11/2016</created>
+        <value>72</value>
+    </healthMeasureHistory>
+    <healthMeasureHistory>
+        <idMeasureHistory>557</idMeasureHistory>
+        <measureName>height</measureName>
+        <created>20/11/2016</created>
+        <value>72</value>
+    </healthMeasureHistory>
 </healthMeasureHistories>
 
 
 
-Request #26: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person/1/weight?before=20-11-2016&after=10-11-1990
+Request #26: GET https://introsde2016-assignment2.herokuapp.com/assignment/person/1/weight?before=20/11/2016&after=10/11/1990
 Accept: application/xml
 ==> Result: OK
 ==> HTTP Status: 200 OK
 <?xml version="1.0" encoding="UTF-8"?><healthMeasureHistories>
     <healthMeasureHistory>
-        <mid>1</mid>
-        <measureDefinition>weight</measureDefinition>
-        <created>2016-11-15T23:00:00Z</created>
-        <value>83</value>
+        <idMeasureHistory>1</idMeasureHistory>
+        <measureName>weight</measureName>
+        <created>09/10/2010</created>
+        <value>85</value>
     </healthMeasureHistory>
     <healthMeasureHistory>
-        <mid>3</mid>
-        <measureDefinition>weight</measureDefinition>
-        <created>2015-06-14T22:00:00Z</created>
-        <value>75</value>
+        <idMeasureHistory>2</idMeasureHistory>
+        <measureName>weight</measureName>
+        <created>16/11/2016</created>
+        <value>84</value>
     </healthMeasureHistory>
 </healthMeasureHistories>
 
 
 
-Request #27: GET https://introsde2016-assignment-2.herokuapp.com/sdelab/person?measureType=weight&max=90&min=86
+Request #27: GET https://introsde2016-assignment2.herokuapp.com/assignment/person?measureType=weight&max=90&min=75
 Accept: application/xml
 ==> Result: OK
 ==> HTTP Status: 200 OK
 <?xml version="1.0" encoding="UTF-8"?><people>
     <person>
-        <birthdate>08/12/1959</birthdate>
-        <email>pippo.pappo@gmail.com</email>
-        <firstname>Pappo</firstname>
-        <idPerson>3</idPerson>
-        <lastname>Pippo</lastname>
-        <healthprofile>
+        <birthdate>09/12/1993</birthdate>
+        <email>michele@test.com</email>
+        <idPerson>3503</idPerson>
+        <lastname>Bern</lastname>
+        <healthProfile>
             <measureType>
-                <measure>weight</measure>
-                <value>87</value>
+                <measureDef>
+                    <idMeasureDef>1</idMeasureDef>
+                    <measureName>weight</measureName>
+                </measureDef>
+                <measureName>weight</measureName>
+                <value>80</value>
             </measureType>
             <measureType>
-                <measure>height</measure>
-                <value>1.68</value>
+                <measureDef>
+                    <idMeasureDef>2</idMeasureDef>
+                    <measureName>height</measureName>
+                </measureDef>
+                <measureName>height</measureName>
+                <value>180</value>
             </measureType>
-        </healthprofile>
-        <username>pippo</username>
+        </healthProfile>
+        <name>Francesco</name>
+        <username>miky</username>
     </person>
 </people>
 
