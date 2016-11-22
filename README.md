@@ -1,4 +1,4 @@
-# introsde-2016-assignment-2
+# introsde-2016-assignment-2 (worked alone)
 **Second assignment | University of Trento**
 
 Documentation about assignment 02: RESTful Services
@@ -20,8 +20,16 @@ The configuration files are:
 * ```build.xml```: it contains all the targets to run the code;
 * ```ivy.xml```: it contains all the dependencies needed to run the project and it downloads them.
 
+## Setup
+
+In order to clone the project and run it against the server deployed on Heroku:
+* ```git clone https://github.com/SaraGasperetti/introsde-2016-assignment-2.git```
+
 #### How to run the client
 
+I worked in pair with Michele Bof (his repository is at https://github.com/michelebof/introsde-2016-assignment-2).
+His server link: https://introsde2016-assignment2.herokuapp.com/assignment/
+My server link: https://introsde2016-assignment-2.herokuapp.com/sdelab/
 
 In order to get response from my own server deployed on Heroku, execute: 
 * ```cd introsde-2016-assignment-2```
