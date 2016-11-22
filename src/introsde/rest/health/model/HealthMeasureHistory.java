@@ -1,6 +1,7 @@
 package introsde.rest.health.model;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -63,12 +64,19 @@ public class HealthMeasureHistory implements Serializable {
     }
 
     @XmlElement(name = "created")
-    public Date getTimestamp() {
-        return this.timestamp;
+    public String getTimestamp() {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        // Get the date today using Calendar object.
+        if (timestamp == null) {
+            return null;
+        }
+        return df.format(timestamp);
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public void setTimestamp(String ts) throws ParseException {
+    	DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.ENGLISH);
+        Date date = format.parse(ts);
+        this.timestamp = date;
     }
 
     public String getValue() {
@@ -165,7 +173,11 @@ public class HealthMeasureHistory implements Serializable {
     public static void saveLifestatusIntoHistory(LifeStatus lifestatus, int personId) {
         HealthMeasureHistory h = new HealthMeasureHistory();
         h.setValue(lifestatus.getValue());
-        h.setTimestamp(new Date());
+        try {
+			h.setTimestamp(new Date().toString());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
         Person p = Person.getPersonById(personId);
         h.setPerson(p);
         h.setMeasureDefinition(MeasureDefinition.getMeasureDefByType(lifestatus.getMeasure()));

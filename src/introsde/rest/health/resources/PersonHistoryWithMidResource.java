@@ -1,5 +1,7 @@
 package introsde.rest.health.resources;
 
+import java.text.ParseException;
+
 import javax.persistence.EntityManager;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -69,7 +71,11 @@ public class PersonHistoryWithMidResource {
 
             //take the non specified fields from the db
             if (history.getTimestamp() == null) {
-                history.setTimestamp(existing.getTimestamp());
+                try {
+					history.setTimestamp(existing.getTimestamp());
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
             }
             if (history.getValue() == null) {
                 history.setValue(existing.getValue());
