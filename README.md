@@ -27,9 +27,9 @@ In order to clone the project and run it against the server deployed on Heroku:
 
 #### How to run the client
 
-I worked in pair with Michele Bof (his repository is at https://github.com/michelebof/introsde-2016-assignment-2).
-His server link: https://introsde2016-assignment2.herokuapp.com/assignment/
-My server link: https://introsde2016-assignment-2.herokuapp.com/sdelab/
+I worked in pair with Michele Bof (his repository is at https://github.com/michelebof/introsde-2016-assignment-2).  
+His server link: https://introsde2016-assignment2.herokuapp.com/assignment/  
+My server link: https://introsde2016-assignment-2.herokuapp.com/sdelab/  
 
 In order to get response from my own server deployed on Heroku, execute: 
 * ```cd introsde-2016-assignment-2```
