@@ -33,7 +33,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class MyClient {
+public class BofClient {
 
     protected final static String GET = "GET";
     protected final static String PUT = "PUT";
@@ -42,23 +42,23 @@ public class MyClient {
 
     private WebTarget service;
 
-    private MyClient() {
+    private BofClient() {
         ClientConfig clientConfig = new ClientConfig();
         Client client = ClientBuilder.newClient(clientConfig);
         service = client.target(getBaseURI());
     }
 
     public static void main(String[] args) throws JsonProcessingException, IOException, NumberFormatException, XPathExpressionException, ParserConfigurationException, SAXException {
-        MyClient myClient = new MyClient();
+        BofClient bofClient = new BofClient();
 
-        myClient.makeAllRequests(MediaType.APPLICATION_XML);
-        myClient.makeAllRequests(MediaType.APPLICATION_JSON);
+        bofClient.makeAllRequests(MediaType.APPLICATION_XML);
+        bofClient.makeAllRequests(MediaType.APPLICATION_JSON);
     }
 
     private static URI getBaseURI() {
         return UriBuilder.fromUri(
                 //"http://127.0.1.1:5700/sdelab/").build();
-        		"https://introsde2016-assignment-2.herokuapp.com/sdelab/").build();
+        		"https://introsde2016-assignment2.herokuapp.com/assignment/").build();
     }
 
     private void makeAllRequests(String mediaType) throws JsonProcessingException, IOException, NumberFormatException, XPathExpressionException, ParserConfigurationException, SAXException {
@@ -120,10 +120,10 @@ public class MyClient {
         resource = "person/" + firstPersonId;
         String expectedFirstname = null;
         if (mediaType.equals(MediaType.APPLICATION_XML)) {
-            expectedFirstname = "<firstname>John</firstname>";
+            expectedFirstname = "<name>John</name>";
             content = "<person>" + expectedFirstname + "</person>";
         } else if (mediaType.equals(MediaType.APPLICATION_JSON)) {
-            expectedFirstname = "\"firstname\":\"John\"";
+            expectedFirstname = "\"name\":\"John\"";
             content = "{" + expectedFirstname + "}";
         }
 
@@ -140,17 +140,17 @@ public class MyClient {
         //Step 3.4//////////////////////////////////////////////////////////////////////
         resource = "person/";
         if (mediaType.equals(MediaType.APPLICATION_XML)) {
-            content = "<person><firstname>Chuck</firstname><lastname>Norris</lastname>"
+            content = "<person><name>Chuck</name><lastname>Norris</lastname>"
                     + "<birthdate>01/01/1945</birthdate>"
-                    + "<healthprofile>"
-                    + "<measureType><measure>weight</measure><value>78.9</value></measureType>"
-                    + "<measureType><measure>height</measure><value>172</value></measureType>"
-                    + "</healthprofile></person>";
+                    + "<healthProfile>"
+                    + "<measureType><measureDef><idMeasureDef>1</idMeasureDef></measureDef><value>78.9</value></measureType>"
+                    + "<measureType><measureDef><idMeasureDef>2</idMeasureDef></measureDef><value>172</value></measureType>"
+                    + "</healthProfile></person>";
         } else if (mediaType.equals(MediaType.APPLICATION_JSON)) {
-            content = "{\"firstname\":\"Chuck\", \"lastname\":\"Norris\","
+            content = "{\"name\":\"Chuck\", \"name\":\"Norris\","
                     + "\"birthdate\":\"01/01/1945\","
-                    + "\"measureType\":[{\"value\":\"78.9\",\"measure\":\"weight\"},"
-                    + "{\"value\":\"1.72\",\"measure\":\"height\"}]}";
+                    + "\"measureType\":[{\"value\":\"78.9\",\"measureDef\":{\"idMeasureDef\":1}},"
+                    + "{\"value\":\"1.72\",\"measureDef\":{\"idMeasureDef\":1}}]}";
         }
 
         response = makeRequest(POST, resource, mediaType, content);
@@ -207,8 +207,8 @@ public class MyClient {
             count = Integer.parseInt(getXmlValue(result, "count(//measureType)"));
             measureTypes = getXmlArray(result, "//measureType");
         } else if (mediaType.equals(MediaType.APPLICATION_JSON)) {
-            count = getJsonSize(result);
-            measureTypes = getJsonArray(result);
+            measureTypes = getJsonArray(result, "measureType");
+            count = measureTypes.size();
         }
         writer.write("Total number of measure types: " + count + "\n");
         writer.write("The measures are: " + measureTypes);
@@ -234,13 +234,13 @@ public class MyClient {
             statusCode = response.getStatus();
             statusType = response.getStatusInfo();
 
-            if (result.contains("mid")) {
+            if (result.contains("idMeasureHistory")) {
                 appResult = "OK";
                 if (mediaType.equals(MediaType.APPLICATION_XML)) {
-                    mid = Integer.parseInt(getXmlValue(result, "//mid"));
+                    mid = Integer.parseInt(getXmlValue(result, "//idMeasureHistory"));
                     measureType = measure;
                 } else if (mediaType.equals(MediaType.APPLICATION_JSON)) {
-                    mid = getJsonIdAtIndex(result, 0, "mid");
+                    mid = getJsonIdAtIndex(result, 0, "idMeasureHistory");
                     measureType = measure;
                 }
 
@@ -313,7 +313,7 @@ public class MyClient {
         //////////////////////////////////////////////////////////////////////////////////
         resource = "person/" + firstPersonId + "/" + measureTypes.get(0);
         if (mediaType.equals(MediaType.APPLICATION_XML)) {
-            content = "<measureType><value>72</value></measureType>";
+            content = "<healthMeasureHistory><value>72</value></healthMeasureHistory>";
         } else if (mediaType.equals(MediaType.APPLICATION_JSON)) {
             content = "{\"value\":\"72\"}";
         }
@@ -349,9 +349,9 @@ public class MyClient {
     	//Step 3.10//////////////////////////////////////////////////////////////////////
         resource = "person/" + firstPersonId + "/" + measureType + "/" + mid;
         if (mediaType.equals(MediaType.APPLICATION_XML)) {
-            content = "<healthMeasureHistory><value>1.8</value></healthMeasureHistory>";
+            content = "<healthMeasureHistory><value>1.8</value><created>10/11/2016</created></healthMeasureHistory>";
         } else if (mediaType.equals(MediaType.APPLICATION_JSON)) {
-            content = "{\"value\":\"1.8\"}";
+            content = "{\"value\":\"1.8\", \"created\":\"10/11/2016\"}";
         }
 
         response = makeRequest(PUT, resource, mediaType, content);
@@ -363,7 +363,7 @@ public class MyClient {
 
         writer.printFormatted(getBaseURI(), PUT, resource, result, statusCode, statusType, appResult, mediaType);
 
-        //////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////
         Double newValue = -1.0;
         resource = "person/" + firstPersonId + "/" + measureType;
         response = makeRequest(GET, resource, mediaType);
@@ -373,7 +373,7 @@ public class MyClient {
         statusType = response.getStatusInfo();
 
         if (mediaType.equals(MediaType.APPLICATION_XML)) {
-            newValue = Double.parseDouble(getXmlValue(result, "//healthMeasureHistory[mid[text()='" + mid + "']]/value"));
+            newValue = Double.parseDouble(getXmlValue(result, "//healthMeasureHistory[idMeasureHistory[text()='" + mid + "']]/value"));
         } else if (mediaType.equals(MediaType.APPLICATION_JSON)) {
             newValue = getJsonValueByMid(result, mid);
         }
@@ -383,19 +383,19 @@ public class MyClient {
 
         //////////////////////////////////////////////////////////////////////////////////
     	//Step 3.11//////////////////////////////////////////////////////////////////////
-        resource = "person/" + firstPersonId + "/weight?before=20-11-2016&after=10-11-1990";
+        resource = "person/" + firstPersonId + "/weight?before=20/11/2016&after=10/11/1990";
         response = makeRequest(GET, resource, mediaType);
         //Get response info
         result = response.readEntity(String.class);
         statusCode = response.getStatus();
         statusType = response.getStatusInfo();
 
-        appResult = (statusCode == 200 && result.contains("mid")) ? "OK" : "ERROR";
+        appResult = (statusCode == 200 && result.contains("idMeasureHistory")) ? "OK" : "ERROR";
         writer.printFormatted(getBaseURI(), GET, resource, result, statusCode, statusType, appResult, mediaType);
 
         //////////////////////////////////////////////////////////////////////////////////
        	//Step 3.11//////////////////////////////////////////////////////////////////////
-        resource = "person?measureType=weight&max=90&min=86";
+        resource = "person?measureType=weight&max=90&min=75";
         response = makeRequest(GET, resource, mediaType);
         //Get response info
         result = response.readEntity(String.class);
@@ -496,12 +496,11 @@ public class MyClient {
         return getJsonTree(jsonString).size();
     }
 
-    private List<String> getJsonArray(String jsonString) throws JsonProcessingException, IOException {
+    private List<String> getJsonArray(String jsonString, String pathString) throws JsonProcessingException, IOException {
         List<String> values = new LinkedList<>();
-        JsonNode tree = getJsonTree(jsonString);
-        int size = tree.size();
-        for (int i = 0; i < size; i++) {
-            values.add(tree.get(i).path("value").asText());
+        JsonNode tree = getJsonTree(jsonString).path(pathString);
+        for(JsonNode n : tree) {
+        	values.add(n.asText());
         }
         return values;
     }
@@ -510,7 +509,7 @@ public class MyClient {
         JsonNode tree = getJsonTree(jsonString);
         int size = tree.size();
         for (int i = 0; i < size; i++) {
-            if ((tree.get(i).path("mid").asInt()) == mid) {
+            if ((tree.get(i).path("idMeasureHistory").asInt()) == mid) {
                 return tree.get(i).path("value").asDouble();
             }
         }

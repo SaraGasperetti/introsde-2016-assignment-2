@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.net.URI;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.StatusType;
@@ -55,13 +56,13 @@ public class WriterOnFile {
         count = 1;
     }
 
-    public String printFormatted(String method, String resource, String result, int statusCode, StatusType statusType, String appResult, String mediaType) {
+    public String printFormatted(URI uri, String method, String resource, String result, int statusCode, StatusType statusType, String appResult, String mediaType) {
 
-        this.write("Request #" + count + ": " + method + " " + MyClient.getBaseURI() + resource);
-        if (!method.equals(MyClient.DELETE)) {
+        this.write("Request #" + count + ": " + method + " " + uri + resource);
+        if (!method.equals(BofClient.DELETE)) {
             this.write("Accept: " + mediaType);
         }
-        if (!method.equals(MyClient.DELETE) && !method.equals(MyClient.GET)) {
+        if (!method.equals(BofClient.DELETE) && !method.equals(BofClient.GET)) {
             this.write("Content-Type: " + mediaType);
         }
         this.write("==> Result: " + appResult);
