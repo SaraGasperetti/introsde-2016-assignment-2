@@ -1,4 +1,4 @@
-# introsde-2016-assignment-2 (worked alone)
+# introsde-2016-assignment-2
 **Second assignment | University of Trento**
 
 Documentation about assignment 02: RESTful Services
